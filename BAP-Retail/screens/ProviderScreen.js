@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, SafeAreaView, View, TextInput, ScrollView, Image, TouchableOpacity, Dimensions, Modal, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -21,6 +21,32 @@ const ProviderScreen = ({route}) => {
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [sliderValues, setSliderValues] = useState([0, 1000]);
+  const [newResult, setNewResult] = useState([]);
+
+  useEffect(()=> {
+
+    let arr = [];
+    for(const shop of result){
+
+      if(shop.message != undefined){
+
+        arr.push(
+          {
+            imageSource: shop.message.catalog["bpp/descriptor"].symbol,
+            name: shop.message.catalog["bpp/descriptor"].name,
+            context: shop.context,
+            id: shop.message.catalog.id,
+            rating: Math.ceil( (Math.random() * 4) + 1)
+          }
+        );
+
+      }
+    }
+
+    console.log('\n\nThis is newResult arr', arr);
+    setNewResult(arr);
+
+  }, [result])
 
   const handleSearch = async () => {
     const gps = `${lat}, ${long}`
@@ -93,7 +119,7 @@ const ProviderScreen = ({route}) => {
       <View style={styles.section}>
 
         <View style={styles.top}>
-          <Text style={styles.productFound}>{result.length} Providers Found</Text>
+          <Text style={styles.productFound}>{newResult.length} Providers Found</Text>
 
           <TouchableOpacity onPress={()=>toggleModal()}>
             <MaterialCommunityIcons name="dots-vertical" size={20} color="black" />
@@ -104,13 +130,13 @@ const ProviderScreen = ({route}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
           
           {!loading ? (
-            result.map((shop, key) => {
-              if(shop.message != undefined){
+            newResult.map((shop, key) => {
                 console.log('\n\nThis is shop', shop)
-                const imageSource = shop.message.catalog["bpp/descriptor"].symbol;
-                const name = shop.message.catalog["bpp/descriptor"].name;
+                const imageSource = shop.imageSource;
+                const name = shop.name;
                 const context = shop.context;
-                const id = shop.message.catalog.id;
+                const id = shop.id; 
+                const rating = shop.rating; 
 
                 return (
                   <View style={styles.shopCards} key={key}>
@@ -134,13 +160,12 @@ const ProviderScreen = ({route}) => {
                       </View>
 
                       <TouchableOpacity onPress={()=>{navigation.navigate('ProductScreen', {context, id, location})}}>
-                        <Text>Explore Products</Text>
+                        <Text>Explore Products {rating}</Text>
                       </TouchableOpacity>
 
                     </View>
                   </View>
                 );
-              }
             })
             ) : 
             (
