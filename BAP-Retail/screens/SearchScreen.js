@@ -6,6 +6,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from 'expo-location';
 import beckn from "../beckn.config";
+import { response } from "../response";
 
 const SearchScreen = () => {
 
@@ -44,7 +45,8 @@ const SearchScreen = () => {
     try{
       setLoading(true);
 
-      const  data  = await beckn.searchProviders(search, gps);
+      // const  data  = await beckn.searchProviders(search, gps);
+      const data = response;
       console.log('\nFrontend: ', data);
 
       setLoading(false);
