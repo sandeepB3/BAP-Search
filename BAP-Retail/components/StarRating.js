@@ -5,9 +5,9 @@ const StarRating = ({ maxStars, rating }) => {
   const renderStar = (index) => {
     const filled = index <= rating;
     const starIcon = filled ? (
-      <AntDesign name="star" size={12} color="#dc6920" />
+      <AntDesign key={index} name="star" size={12} color="#dc6920" />
     ) : (
-      <AntDesign name="staro" size={12} color="#dc6920" />
+      <AntDesign key={index} name="staro" size={12} color="#dc6920" />
     );
 
     return starIcon;

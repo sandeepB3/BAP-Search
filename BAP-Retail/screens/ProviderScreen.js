@@ -1,18 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  View,
-  TextInput,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-  Modal,
-  ActivityIndicator,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, SafeAreaView, View, TextInput, ScrollView, Image, TouchableOpacity, Dimensions, Modal, ActivityIndicator, TouchableWithoutFeedback } from "react-native";
 import { AntDesign, FontAwesome } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
@@ -81,9 +68,11 @@ const ProviderScreen = ({ route }) => {
   };
 
   const rating = (sort) =>{
+
     if(sort=="LowToHigh"){
       setNewResult(newResult.sort((a, b) => a.rating - b.rating));
     }
+
     if(sort=="HighToLow"){
       setNewResult(newResult.sort((a, b) => b.rating - a.rating));
     }
